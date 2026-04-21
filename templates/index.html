@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Email Response Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Email Response Assistant</h1>
+      <p>Create reusable response templates and match incoming emails to the best reply.</p>
+
+      <section class="card">
+        <h2>Add Response Template</h2>
+        <form action="/templates" method="post">
+          <label>Template Name</label>
+          <input name="name" placeholder="Billing Issue Follow-up" required />
+
+          <label>Template Body</label>
+          <textarea name="body" rows="6" placeholder="Hi {{name}}, thanks for reaching out..." required></textarea>
+          <button type="submit">Save Template</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Analyze Incoming Email</h2>
+        <form action="/analyze" method="post">
+          <label>Paste received email</label>
+          <textarea name="incoming_email" rows="8" placeholder="Paste the received email here..." required></textarea>
+          <button type="submit">Find Best Response</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Saved Templates</h2>
+        {% if templates %}
+          <ul>
+            {% for t in templates %}
+              <li>
+                <strong>{{ t.name }}</strong>
+                <p>{{ t.body }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No templates yet. Add your first one above.</p>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>
