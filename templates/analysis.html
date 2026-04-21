@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Analysis - Email Response Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Analysis Result</h1>
+      <a href="/">← Back</a>
+
+      <section class="card">
+        <h2>Incoming Email</h2>
+        <pre>{{ incoming_email }}</pre>
+      </section>
+
+      {% if best_match %}
+      <section class="card highlight">
+        <h2>Best Matching Template: {{ best_match.name }}</h2>
+        <p><strong>Score:</strong> {{ best_match.score }}</p>
+        <pre>{{ best_match.body }}</pre>
+        <h3>Suggestions to Improve</h3>
+        <ul>
+          {% for s in best_match.suggestions %}
+            <li>{{ s }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% else %}
+      <section class="card">
+        <p>No templates found. Add templates first.</p>
+      </section>
+      {% endif %}
+
+      {% if all_matches %}
+      <section class="card">
+        <h2>All Template Matches</h2>
+        <ul>
+          {% for item in all_matches %}
+            <li><strong>{{ item.name }}</strong> — Score {{ item.score }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+    </main>
+  </body>
+</html>
